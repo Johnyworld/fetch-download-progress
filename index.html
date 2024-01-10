@@ -23,6 +23,12 @@
           receivedLength = receivedLength + value.length;
           console.log(`${receivedLength}/${totalLength}바이트 다운로드`, value);
         }
+
+        const textDecorder = new TextDecoder('UTF-8');
+        for (const chunk of chunks) {
+          const text = textDecorder.decode(chunk);
+          console.log(text);
+        }
       }
     </script>
   </body>
