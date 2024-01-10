@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <button onclick="download()">다운로드</button>
+    <script>
+      async function download() {
+        const res = await fetch('/chunk');
+        const totalLength = res.headers.get('content-length');
+        const chunks = [];
+        let receivedLength = 0;
+
+        const reader = res.body.getReader();
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) {
+            break;
+          }
+          chunks.push(value);
+          receivedLength = receivedLength + value.length;
+          console.log(`${receivedLength}/${totalLength}바이트 다운로드`, value);
+        }
+      }
+    </script>
+  </body>
+</html>
